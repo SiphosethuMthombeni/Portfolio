@@ -84,3 +84,47 @@ document.querySelectorAll("nav ul li a").forEach(link=>{
     });
 
 });
+
+const themeButton = document.getElementById("theme-toggle");
+
+themeButton.addEventListener("click",()=>{
+
+    document.body.classList.toggle("dark-mode");
+
+    if(document.body.classList.contains("dark-mode")){
+
+        themeButton.textContent="☀️";
+
+    }else{
+
+        themeButton.textContent="🌙";
+
+    }
+
+});
+
+const skillSection = document.querySelector("#skills");
+
+const progressBars = document.querySelectorAll(".progress");
+
+let skillsAnimated = false;
+
+window.addEventListener("scroll",()=>{
+
+    const position = skillSection.getBoundingClientRect().top;
+
+    if(position < window.innerHeight-150 && !skillsAnimated){
+
+        progressBars.forEach(bar=>{
+
+            const percent = bar.textContent;
+
+            bar.style.width = percent;
+
+        });
+
+        skillsAnimated = true;
+
+    }
+
+});
