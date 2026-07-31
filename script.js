@@ -1,27 +1,86 @@
-const topBtn = document.getElementById("topBtn");
+const words = [
+    "Web Developer",
+    "Data Analyst",
+    "Cybersecurity Enthusiast"
+];
 
-window.onscroll = function () {
+let wordIndex = 0;
+let charIndex = 0;
+let deleting = false;
 
-    if (document.documentElement.scrollTop > 300) {
+const typing = document.getElementById("typing");
 
-        topBtn.style.display = "block";
+function typeEffect(){
 
-    } else {
+    const currentWord = words[wordIndex];
 
-        topBtn.style.display = "none";
+    if(!deleting){
+
+        typing.textContent = currentWord.substring(0,charIndex++);
+
+        if(charIndex > currentWord.length){
+
+            deleting = true;
+
+            setTimeout(typeEffect,1200);
+
+            return;
+        }
+
+    }else{
+
+        typing.textContent = currentWord.substring(0,charIndex--);
+
+        if(charIndex < 0){
+
+            deleting = false;
+
+            wordIndex = (wordIndex + 1) % words.length;
+
+        }
 
     }
 
-};
+    setTimeout(typeEffect, deleting ? 60 : 120);
 
-topBtn.onclick = function () {
+}
 
-    window.scrollTo({
+typeEffect();
 
-        top: 0,
+const sections = document.querySelectorAll(".fade");
 
-        behavior: "smooth"
+window.addEventListener("scroll", () => {
+
+    sections.forEach(section => {
+
+        const sectionTop = section.getBoundingClientRect().top;
+
+        if(sectionTop < window.innerHeight - 100){
+
+            section.classList.add("show");
+
+        }
 
     });
 
-};
+});
+
+const menu = document.querySelector(".menu-toggle");
+
+const navMenu = document.querySelector("nav ul");
+
+menu.addEventListener("click",()=>{
+
+    navMenu.classList.toggle("active");
+
+});
+
+document.querySelectorAll("nav ul li a").forEach(link=>{
+
+    link.addEventListener("click",()=>{
+
+        navMenu.classList.remove("active");
+
+    });
+
+});
