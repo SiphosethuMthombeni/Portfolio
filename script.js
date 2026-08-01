@@ -1,97 +1,123 @@
+/* ==========================================
+   TYPING ANIMATION
+========================================== */
+
+
 const words = [
+
+    "Software Developer",
     "Web Developer",
     "Data Analyst",
     "Cybersecurity Enthusiast"
+
 ];
 
+
 let wordIndex = 0;
+
 let charIndex = 0;
+
 let deleting = false;
+
 
 const typing = document.getElementById("typing");
 
+
 function typeEffect(){
 
-    const currentWord = words[wordIndex];
+
+    let currentWord = words[wordIndex];
+
 
     if(!deleting){
 
+
         typing.textContent = currentWord.substring(0,charIndex++);
+
 
         if(charIndex > currentWord.length){
 
             deleting = true;
 
-            setTimeout(typeEffect,1200);
+            setTimeout(typeEffect,1500);
 
             return;
+
         }
+
 
     }else{
 
+
         typing.textContent = currentWord.substring(0,charIndex--);
 
-        if(charIndex < 0){
+
+        if(charIndex === 0){
 
             deleting = false;
 
-            wordIndex = (wordIndex + 1) % words.length;
+            wordIndex++;
+
+            if(wordIndex >= words.length){
+
+                wordIndex = 0;
+
+            }
 
         }
+
 
     }
 
-    setTimeout(typeEffect, deleting ? 60 : 120);
+
+    setTimeout(typeEffect,100);
 
 }
 
+
 typeEffect();
 
-const sections = document.querySelectorAll(".fade");
 
-window.addEventListener("scroll", () => {
 
-    sections.forEach(section => {
 
-        const sectionTop = section.getBoundingClientRect().top;
 
-        if(sectionTop < window.innerHeight - 100){
+/* ==========================================
+   MOBILE MENU
+========================================== */
 
-            section.classList.add("show");
 
-        }
+const menuToggle = document.querySelector(".menu-toggle");
 
-    });
+const navLinks = document.querySelector("nav ul");
 
-});
 
-const menu = document.querySelector(".menu-toggle");
+menuToggle.addEventListener("click",()=>{
 
-const navMenu = document.querySelector("nav ul");
 
-menu.addEventListener("click",()=>{
+    navLinks.classList.toggle("active");
 
-    navMenu.classList.toggle("active");
 
 });
 
-document.querySelectorAll("nav ul li a").forEach(link=>{
 
-    link.addEventListener("click",()=>{
 
-        navMenu.classList.remove("active");
 
-    });
 
-});
+/* ==========================================
+   DARK MODE TOGGLE
+========================================== */
+
 
 const themeButton = document.getElementById("theme-toggle");
 
+
 themeButton.addEventListener("click",()=>{
 
-    document.body.classList.toggle("dark-mode");
 
-    if(document.body.classList.contains("dark-mode")){
+    document.body.classList.toggle("light-mode");
+
+
+    if(document.body.classList.contains("light-mode")){
 
         themeButton.textContent="☀️";
 
@@ -101,30 +127,129 @@ themeButton.addEventListener("click",()=>{
 
     }
 
+
 });
 
-const skillSection = document.querySelector("#skills");
+
+
+
+
+/* ==========================================
+   FADE SCROLL ANIMATION
+========================================== */
+
+
+const fadeElements = document.querySelectorAll(".fade");
+
+
+function reveal(){
+
+    fadeElements.forEach(element=>{
+
+        const position = element.getBoundingClientRect().top;
+
+        const windowHeight = window.innerHeight;
+
+
+        if(position < windowHeight - 100){
+
+            element.classList.add("show");
+
+        }
+
+    });
+
+}
+
+
+window.addEventListener("scroll", reveal);
+
+reveal();
+
+
+
+
+
+/* ==========================================
+   SKILL BAR ANIMATION
+========================================== */
+
+
+const skillsSection = document.querySelector(".skills");
+
 
 const progressBars = document.querySelectorAll(".progress");
 
-let skillsAnimated = false;
 
 window.addEventListener("scroll",()=>{
 
-    const position = skillSection.getBoundingClientRect().top;
 
-    if(position < window.innerHeight-150 && !skillsAnimated){
+    let sectionPosition = skillsSection.getBoundingClientRect().top;
+
+
+    let screenPosition = window.innerHeight;
+
+
+    if(sectionPosition < screenPosition){
+
 
         progressBars.forEach(bar=>{
 
-            const percent = bar.textContent;
 
-            bar.style.width = percent;
+            bar.classList.add("show");
+
 
         });
 
-        skillsAnimated = true;
 
     }
+
+
+});
+
+
+
+
+
+/* ==========================================
+   BACK TO TOP BUTTON
+========================================== */
+
+
+const topButton = document.getElementById("topBtn");
+
+
+window.addEventListener("scroll",()=>{
+
+
+    if(window.scrollY > 500){
+
+
+        topButton.style.display="block";
+
+
+    }else{
+
+
+        topButton.style.display="none";
+
+
+    }
+
+
+});
+
+
+topButton.addEventListener("click",()=>{
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
 
 });
